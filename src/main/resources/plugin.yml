@@ -1,0 +1,6 @@
+name: AntiNerd
+version: ${project.version}
+main: xyz.reassembly.antinerd.AntiNerd
+authors: [ Reassembly ]
+description: eh its a decent anticheat ig
+depend: [ ProtocolLib ]
