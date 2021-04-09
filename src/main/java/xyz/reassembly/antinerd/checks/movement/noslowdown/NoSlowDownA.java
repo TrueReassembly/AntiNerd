@@ -35,7 +35,6 @@ public class NoSlowDownA implements Listener {
 
         if (player.isBlocking()) {
 
-            player.sendMessage(NoSlowVL.get(player).toString());
             if (playerSpeed > 0.087) {
 
                 NoSlowVL.put(player, NoSlowVL.get(player) + 1);
