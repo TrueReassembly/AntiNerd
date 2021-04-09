@@ -1,7 +1,5 @@
-package xyz.reassembly.antinerd.checks.Combat.Reach;
+package xyz.reassembly.antinerd.checks.combat.reach;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -10,29 +8,42 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.plugin.Plugin;
 import xyz.reassembly.antinerd.util.AttackUtils;
+import xyz.reassembly.antinerd.util.PunishUtils;
 
-import java.awt.*;
+import java.util.HashMap;
 
 public class ReachA implements Listener {
 
     public Plugin plugin;
     public AttackUtils attackUtils;
-    private ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+    HashMap<Player, Integer> violationsReach;
+    private PunishUtils punishUtils;
 
-    public ReachA(Plugin plugin, AttackUtils attackUtils) {
+    public ReachA(Plugin plugin, AttackUtils attackUtils, PunishUtils punishUtils) {
         this.plugin = plugin;
         this.attackUtils = attackUtils;
+        this.violationsReach = new HashMap<>();
+        this.punishUtils = punishUtils;
     }
 
     @EventHandler
     public void onAttack(EntityDamageByEntityEvent event) {
-        Entity damager = event.getDamager();
-        if (damager instanceof Player) {
+        Entity initdamage = event.getDamager();
+        if (initdamage instanceof Player) {
             Entity victim = event.getEntity();
+            Player damager = (Player) initdamage;
             double distance = attackUtils.getAttackRange(damager, victim);
-            damager.sendMessage(String.valueOf(distance));
-            if (distance > 5D) {
+            if (!violationsReach.containsKey(damager)) {
+                violationsReach.put(damager, 0);
+            }
+
+            if (distance > 4.7D) {
                 plugin.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&6AntiNerd&7] &6" + damager.getName() + " &7flagged &6Reach-A &7Verbose: " + distance));
+                violationsReach.put(damager, violationsReach.get(damager) + 1);
+            }
+
+            if (violationsReach.get(damager) > 10) {
+                punishUtils.banPlayer(damager, "Reach-A");
             }
         }
     }
