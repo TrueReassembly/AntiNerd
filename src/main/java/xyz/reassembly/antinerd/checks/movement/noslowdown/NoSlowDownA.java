@@ -51,5 +51,6 @@ public class NoSlowDownA implements Listener {
                 NoSlowVL.put(player, 0);
             }
         }
+
     }
 }
