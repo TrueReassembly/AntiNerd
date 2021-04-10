@@ -18,7 +18,6 @@ public class NoSlowDownA implements Listener {
 
     private Plugin plugin;
     private PunishUtils punishUtils;
-    private MovementUtils movementUtils;
     private HashMap<Player, Integer> NoSlowVL;
     private HashMap<Player, Integer> blockSteps;
 
