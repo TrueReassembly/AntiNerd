@@ -1,11 +1,14 @@
 package xyz.reassembly.antinerd.checks.movement.noslowdown;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
+import xyz.reassembly.antinerd.util.MovementUtils;
 import xyz.reassembly.antinerd.util.PunishUtils;
 
 import java.util.HashMap;
@@ -15,6 +18,7 @@ public class NoSlowDownA implements Listener {
 
     private Plugin plugin;
     private PunishUtils punishUtils;
+    private MovementUtils movementUtils;
     private HashMap<Player, Integer> NoSlowVL;
     private HashMap<Player, Integer> blockSteps;
 
@@ -29,24 +33,26 @@ public class NoSlowDownA implements Listener {
     public void on(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         double playerSpeed = event.getFrom().distance(event.getTo());
-        double maxSpeed = 3;
         if (!NoSlowVL.containsKey(player)) NoSlowVL.put(player, 0);
         if (!blockSteps.containsKey(player)) blockSteps.put(player, 0);
 
-        if (player.isBlocking()) {
+        if (player.isBlocking() || event.getFrom().getDirection() == player.getLocation().getDirection()) {
 
-            if (playerSpeed > 0.087) {
+            if(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
 
-                NoSlowVL.put(player, NoSlowVL.get(player) + 1);
+                if (playerSpeed > 0.1) {
 
-                if (NoSlowVL.get(player) > 5) plugin.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&6AntiNerd&7] &6" + player.getName() + " &7flagged &6NoSlow-A &7Verbose: " + playerSpeed + " / " + maxSpeed));
+                    NoSlowVL.put(player, NoSlowVL.get(player) + 1);
 
-                if (NoSlowVL.get(player) > 15) punishUtils.banPlayer(player, "NoSlowDown-A");
+                    if (NoSlowVL.get(player) > 5) punishUtils.sendAlert(player, "NoSlow-A");
+
+                    if (NoSlowVL.get(player) > 15) punishUtils.banPlayer(player, "NoSlowDown-A");
+                }
             }
 
         } else {
             blockSteps.put(player, blockSteps.get(player) + 1);
-            if (blockSteps.get(player) > 5) {
+            if (blockSteps.get(player) > 2) {
                 blockSteps.put(player, 0);
                 NoSlowVL.put(player, 0);
             }

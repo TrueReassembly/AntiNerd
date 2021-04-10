@@ -38,7 +38,7 @@ public class ReachA implements Listener {
             }
 
             if (distance > 4.7D) {
-                plugin.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&6AntiNerd&7] &6" + damager.getName() + " &7flagged &6Reach-A &7Verbose: " + distance));
+                punishUtils.sendAlert(damager, "Reach-A");
                 violationsReach.put(damager, violationsReach.get(damager) + 1);
             }
 
