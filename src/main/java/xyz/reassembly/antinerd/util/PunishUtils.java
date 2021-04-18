@@ -16,7 +16,7 @@ public class PunishUtils {
 
     public void banPlayer(Player player, String Reason) {
         // player.setBanned(true);
-        player.kickPlayer(ChatColor.translateAlternateColorCodes('&', "&cYou have been perm banned from this server for \n\n" + Reason));
+        player.kickPlayer(ChatColor.translateAlternateColorCodes('&', "&7[&6AntiNerd&7] Caught you cheating \n &7You have been banned from this server for \n\n&6" + Reason));
     }
 
     public void sendAlert(Player player, String Reason) {
