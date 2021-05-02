@@ -4,3 +4,8 @@ main: xyz.reassembly.antinerd.AntiNerd
 authors: [ Reassembly ]
 description: eh its a decent anticheat ig
 depend: [ ProtocolLib ]
+commands:
+  alerts:
+    description: toggle alerts and stuff
+    usage: /alerts
+    permission: antinerd.alerts

@@ -1,16 +1,19 @@
 package xyz.reassembly.antinerd.util;
 
-import com.comphenix.protocol.PacketType;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import xyz.reassembly.antinerd.AlertsCommand;
 
 public class PunishUtils {
 
     private Plugin plugin;
+    private AlertsCommand commands;
 
-    public PunishUtils(Plugin plugin) {
+    public PunishUtils(Plugin plugin, AlertsCommand commands) {
         this.plugin = plugin;
+        this.commands = commands;
     }
 
 
@@ -20,6 +23,10 @@ public class PunishUtils {
     }
 
     public void sendAlert(Player player, String Reason) {
-        plugin.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&6AntiNerd&7] &6" + player.getName() + " &7flagged &6" + Reason));
+//        for (Player p : Bukkit.getOnlinePlayers()) {
+//            if (commands.getRecieveAlerts().get(p)) p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&6AntiNerd&7] &6" + player.getName() + " &7flagged &6" + Reason));
+//        }
+
+        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&6AntiNerd&7] &6" + player.getName() + " &7flagged &6" + Reason));
     }
 }

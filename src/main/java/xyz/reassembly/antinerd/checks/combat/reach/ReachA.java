@@ -37,13 +37,13 @@ public class ReachA implements Listener {
                 violationsReach.put(damager, 0);
             }
 
-            if (distance > 4.7D) {
-                punishUtils.sendAlert(damager, "Reach-A");
+            if (distance > 5D) {
+                punishUtils.sendAlert(damager, "Reach [A]");
                 violationsReach.put(damager, violationsReach.get(damager) + 1);
             }
 
             if (violationsReach.get(damager) > 10) {
-                punishUtils.banPlayer(damager, "Reach-A");
+                punishUtils.banPlayer(damager, "Reach [A]");
             }
         }
     }

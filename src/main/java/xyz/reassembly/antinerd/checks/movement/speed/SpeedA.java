@@ -29,6 +29,8 @@ public class SpeedA implements Listener {
 
     @EventHandler
     public void on(PlayerMoveEvent event) {
+
+        if (event.getPlayer().isFlying()) return;
         double speedxfrom = event.getFrom().getX();
         double speedxto = event.getTo().getX();
         if (speedxfrom > speedxto) speedx = speedxfrom - speedxto;
@@ -41,14 +43,14 @@ public class SpeedA implements Listener {
 
         Player player = event.getPlayer();
         // if (event.getFrom().getY() == event.getTo().getY() || player.getLocation().getDirection() == event.getFrom().getDirection()) {
-            if (speedx > 0.58D || speedz > 0.58D ) {
+            if (speedx > 0.8D || speedz > 0.8D ) {
                 if (!SpeedAVL.containsKey(player)) SpeedAVL.put(player, 0);
 
                 SpeedAVL.put(player, SpeedAVL.get(player) + 1);
 
-                punishUtils.sendAlert(player, "Speed-A");
+                punishUtils.sendAlert(player, "Speed [A]");
 
-                if (SpeedAVL.get(player) > 30) punishUtils.banPlayer(player, "Speed-A");
+                if (SpeedAVL.get(player) > 10) punishUtils.banPlayer(player, "Speed [A]");
 
             }
         //}

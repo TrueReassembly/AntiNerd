@@ -30,9 +30,9 @@ public class NoSlowDownB implements Listener {
         if (player.isSprinting() && player.isBlocking()) {
             NoSlowBVL.put(player, NoSlowBVL.get(player) + 1);
 
-            if (NoSlowBVL.get(player) > 5) punishUtils.sendAlert(player, "NoSlow-B");
+            if (NoSlowBVL.get(player) > 5) punishUtils.sendAlert(player, "NoSlow [B]");
 
-            if (NoSlowBVL.get(player) > 15) punishUtils.banPlayer(player, "NoSlowDown-B");
+            if (NoSlowBVL.get(player) > 15) punishUtils.banPlayer(player, "NoSlowDown [B]");
         }
     }
 
