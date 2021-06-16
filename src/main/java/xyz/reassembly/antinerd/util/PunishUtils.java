@@ -17,16 +17,6 @@ public class PunishUtils {
     }
 
 
-    public void banPlayer(Player player, String Reason) {
-        // player.setBanned(true);
-        player.kickPlayer(ChatColor.translateAlternateColorCodes('&', "&7[&6AntiNerd&7] Caught you cheating \n &7You have been banned from this server for \n\n&6" + Reason));
-    }
 
-    public void sendAlert(Player player, String Reason) {
-//        for (Player p : Bukkit.getOnlinePlayers()) {
-//            if (commands.getRecieveAlerts().get(p)) p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&6AntiNerd&7] &6" + player.getName() + " &7flagged &6" + Reason));
-//        }
 
-        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&7[&6AntiNerd&7] &6" + player.getName() + " &7flagged &6" + Reason));
-    }
 }

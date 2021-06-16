@@ -1,20 +1,17 @@
 package xyz.reassembly.antinerd.checks.movement.noslowdown;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
+import xyz.reassembly.antinerd.checks.Check;
+import xyz.reassembly.antinerd.checks.CheckType;
 import xyz.reassembly.antinerd.util.PunishUtils;
 
 import java.util.HashMap;
-import java.util.Locale;
 
-
-public class NoSlowDownA implements Listener {
+public class NoSlowDownA extends Check implements Listener {
 
     private Plugin plugin;
     private PunishUtils punishUtils;
@@ -25,6 +22,7 @@ public class NoSlowDownA implements Listener {
     double finalyloc;
 
     public NoSlowDownA(Plugin plugin, PunishUtils punishUtils) {
+        super(CheckType.NOSLOWDOWN, "A", plugin);
         this.plugin = plugin;
         this.punishUtils = punishUtils;
         NoSlowVL = new HashMap<>();
@@ -34,20 +32,20 @@ public class NoSlowDownA implements Listener {
     @EventHandler
     public void on(PlayerMoveEvent event) {
         Player player = event.getPlayer();
+        if (player.isFlying()) return;
         double speedxfrom = event.getFrom().getX();
         double speedxto = event.getTo().getX();
-        if (speedxfrom > speedxto) speedx = speedxfrom - speedxto;
-        else if (speedxfrom < speedxto) speedx = speedxto - speedxfrom;
+        double speedx = Math.abs(speedxfrom-speedxto);
 
-        double speedzfrom = event.getFrom().getX();
-        double speedzto = event.getTo().getX();
-        if (speedzfrom > speedzto) speedz = speedzfrom - speedzto;
-        else if (speedzfrom < speedzto) speedz = speedzto - speedzfrom;
+        double speedzfrom = event.getFrom().getZ();
+        double speedzto = event.getTo().getZ();
+        double speedz = Math.abs(speedzfrom-speedzto);
+
         if (!NoSlowVL.containsKey(player)) NoSlowVL.put(player, 0);
         if (!blockSteps.containsKey(player)) blockSteps.put(player, 0);
 
         // if (player.isOnGround()) {
-            if (player.isBlocking()) {
+            if (player.isBlocking() || player.isSneaking()) {
 
                 double yloc1 = event.getFrom().getY();
                 double yloc2 = event.getTo().getY();
@@ -58,13 +56,13 @@ public class NoSlowDownA implements Listener {
 
                 if (finalyloc < 0.5)
 
-                if (speedx > 0.125 || speedz > 0.125) {
+                if (speedx > 0.15 || speedz > 0.15) {
 
                     NoSlowVL.put(player, NoSlowVL.get(player) + 1);
 
-                    if (NoSlowVL.get(player) > 5) punishUtils.sendAlert(player, "NoSlow [A]");
+                    if (NoSlowVL.get(player) > 5) sendAlert(player, NoSlowVL.get(player));
 
-                    if (NoSlowVL.get(player) > 15) punishUtils.banPlayer(player, "NoSlowDown [A]");
+                    if (NoSlowVL.get(player) > 15) banPlayer(player);
                 }
 
             } else {

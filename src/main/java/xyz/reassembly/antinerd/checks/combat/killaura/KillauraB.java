@@ -4,16 +4,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import xyz.reassembly.antinerd.checks.Check;
+import xyz.reassembly.antinerd.checks.CheckType;
 import xyz.reassembly.antinerd.util.MovementUtils;
 import xyz.reassembly.antinerd.util.PunishUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class KillauraB {
+public class KillauraB extends Check implements Listener {
 
     private Plugin plugin;
     private PunishUtils punishUtils;
@@ -23,6 +26,7 @@ public class KillauraB {
     ArrayList<Entity> entityArrayList;
 
     public KillauraB(Plugin plugin, PunishUtils punishUtils, MovementUtils movementUtils) {
+        super(CheckType.KILLAURA, "B", plugin);
         this.plugin = plugin;
         this.punishUtils = punishUtils;
         this.movementUtils = movementUtils;
@@ -54,9 +58,9 @@ public class KillauraB {
             if (entitiespersec.get(attacker).size() > 3) {
                 KillauraBVL.put(attacker, KillauraBVL.get(attacker) + 1);
 
-                if (KillauraBVL.get(attacker) > 5) punishUtils.sendAlert(attacker, "KillAura [A]");
+                if (KillauraBVL.get(attacker) > 5) sendAlert(attacker, KillauraBVL.get(attacker));
 
-                if (KillauraBVL.get(attacker) > 15) punishUtils.banPlayer(attacker, "KillAura [A]");
+                if (KillauraBVL.get(attacker) > 15) banPlayer(attacker);
 
 
             }
